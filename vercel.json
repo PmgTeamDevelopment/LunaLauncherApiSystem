@@ -3,6 +3,10 @@
     {
       "src": "^/$",
       "dest": "/hub/index.html"
+    },
+    {
+      "src": "^/auth/login$",
+      "dest": "/hub/login.html"
     }
   ]
 }
