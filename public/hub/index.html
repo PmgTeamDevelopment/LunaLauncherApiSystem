@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Main Lobby - KawaiiProject</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #e0f7fa, #ffffff);
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #064f74;
+      margin-bottom: 20px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      z-index: 2;
+    }
+    
+    .momo-wrapper {
+      transform: skewX(-12deg);
+      border-radius: 6px;
+      overflow: hidden;
+      display: inline-block;
+      background: linear-gradient(135deg, #b3e5ff, #e1f5fe);
+      box-shadow: 0 4px 12px rgba(0, 132, 255, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .momo-button {
+      transform: skewX(12deg);
+      padding: 12px 36px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Segoe UI', sans-serif;
+      color: #0a3a66;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.3s ease;
+    }
+
+    .momo-wrapper:hover {
+      transform: skewX(-12deg) scale(1.03);
+      box-shadow: 0 6px 18px rgba(0, 132, 255, 0.3);
+    }
+
+    .momo-wrapper:active {
+      transform: skewX(-12deg) scale(0.97);
+      box-shadow: 0 2px 6px rgba(0, 132, 255, 0.2);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    canvas {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+    }
+
+    .live2d {
+      position: absolute;
+      right: 20px;
+      bottom: 0;
+      width: 200px;
+      z-index: 1;
+      opacity: 0.85;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <h1>Welcome To LunaLauncher!</h1>
+  <div class="button-group">
+    <div class="momo-wrapper"><button class="momo-button" onclick="location.href='https://kawaiiproject.neocities.org'">My Profile</button></div>
+    <div class="momo-wrapper"><button class="momo-button" onclick="location.href='settings.html'">Settings</button></div>
+    <div class="momo-wrapper"><button class="momo-button" onclick="location.href='https://kawaiiproject.neocities.org/Login'">Log In/Sign Up</button></div>
+    <div class="momo-wrapper"><button class="momo-button" onclick="location.href='https://kawaiiproject.neocities.org/Releases'">News</button></div>
+    <div class="momo-wrapper"><button class="momo-button" onclick="location.href='logout.html'">Logout</button></div>
+  </div>
+
+  <img src="char.png" alt="Live2D - Demo" class="live2d" />
+
+  <footer>&copy; 2025-2026 PmgTeam. All Rights Reserved.</footer>
+
+  <script>
+    // Basic particle background
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener("resize", function(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    class Particle {
+      constructor(){
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+      }
+      update(){
+        this.x += this.speedX;
+        this.y += this.speedY;
+      }
+      draw(){
+        ctx.fillStyle = 'rgba(100, 200, 255, 0.7)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function init(){
+      particlesArray = [];
+      for (let i = 0; i < 120; i++){
+        particlesArray.push(new Particle());
+      }
+    }
+
+    function handleParticles(){
+      for (let i = 0; i < particlesArray.length; i++){
+        particlesArray[i].update();
+        particlesArray[i].draw();
+      }
+    }
+
+    function animate(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      handleParticles();
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+  </script>
+</body>
+</html>
