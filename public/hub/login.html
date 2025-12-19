@@ -133,7 +133,7 @@
 
       try {
         // Gửi POST tới endpoint /auth/login
-        const res = await fetch('/auth/login', {
+        const res = await fetch('/auth/login/api', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ u, p, id: "web-client" })
@@ -158,3 +158,4 @@
   </script>
 </body>
 </html>
+
