@@ -1,11 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/auth/login",
-      "has": [
-        { "type": "query", "key": "get_token" }
-      ],
-      "destination": "/api/auth/login" 
+      "source": "/",
+      "destination": "/hub/index.html"
+    },
+    {
+      "source": "/auth/login/api",
+      "destination": "/auth/login/api"
     },
     {
       "source": "/auth/login",
