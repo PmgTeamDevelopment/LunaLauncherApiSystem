@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 // Chú ý lùi 4 cấp để vào thư mục lib
-import { UserManager } from '../../../../../lib/UserManager';
+import { UserManager } from '../../../lib/UserManager';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
