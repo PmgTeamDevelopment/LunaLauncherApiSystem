@@ -1,20 +1,22 @@
 import { NextResponse } from 'next/server';
-// Chú ý lùi 4 cấp để vào thư mục lib
+// Lùi 3 cấp để vào thư mục lib từ app/auth/login
 import { UserManager } from '../../../lib/UserManager';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   
-  // Kiểm tra tham số ?get_token để trả về trạng thái API
+  // Nếu URL có tham số ?get_token, trả về JSON cho Launcher
   if (searchParams.has('get_token')) {
     return NextResponse.json({
       status: "Luna API Online",
-      endpoint: "/auth/login/api",
-      message: "Ready for Launcher connections"
+      message: "Ready for Launcher",
+      endpoint: "/auth/login",
+      timestamp: new Date().toISOString()
     });
   }
 
-  return NextResponse.json({ error: "Access Denied" }, { status: 401 });
+  // Nếu không có query, trả về lỗi 404 để vercel.json kích hoạt rewrite sang login.html
+  return new Response(null, { status: 404 }); 
 }
 
 export async function POST(req: Request) {
@@ -22,20 +24,21 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { u, p, id, l } = body;
 
-    // Logic Đăng ký nếu có License Key
+    // Nếu có license key 'l' gửi lên -> Thực hiện Đăng ký
     if (l !== undefined) {
       await UserManager.register(u, p, id, l);
-      return NextResponse.json({ a1: true, msg: "Registered!" });
+      return NextResponse.json({ a1: true, msg: "Đăng ký thành công!" });
     }
 
-    // Logic Đăng nhập
+    // Ngược lại -> Thực hiện Đăng nhập
     const result = await UserManager.authenticate(u, p, id);
-    return NextResponse.json({
-      a1: true,
-      z9: result.token,
-      l: result.license
+    return NextResponse.json({ 
+      a1: true, 
+      z9: result.token, 
+      l: result.license 
     });
   } catch (err: any) {
+    // Trả về lỗi từ UserManager (ví dụ: "Sai mật khẩu")
     return NextResponse.json({ a1: false, msg: err.message }, { status: 401 });
   }
 }
