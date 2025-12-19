@@ -1,12 +1,22 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "^/$",
-      "dest": "/hub/index.html"
+      "source": "/",
+      "destination": "/hub/index.html"
     },
     {
-      "src": "^/auth/login$",
-      "dest": "/hub/login.html"
+      "source": "/auth/login",
+      "has": [
+        {
+          "type": "query",
+          "key": "get_token"
+        }
+      ],
+      "destination": "/auth/login"
+    },
+    {
+      "source": "/auth/login",
+      "destination": "/hub/login.html"
     }
   ]
 }
