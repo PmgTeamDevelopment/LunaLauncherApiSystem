@@ -6,155 +6,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/hub/favicon.ico" type="image/x-icon">
   <style>
-    /* ===== Base ===== */
+    /* ===== Giao diện gốc của Minh ===== */
     body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      overflow: hidden;
+      margin: 0; padding: 0; height: 100vh; overflow: hidden;
       background: linear-gradient(120deg, #e0f7ff, #ffffff);
       font-family: "Segoe UI", system-ui, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
     }
-
-    canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-    }
-
-    /* ===== Login Box ===== */
+    canvas { position: fixed; inset: 0; z-index: 0; }
     .login-container {
-      z-index: 2;
-      background: rgba(255,255,255,0.95);
-      padding: 40px;
-      border-radius: 16px;
+      z-index: 2; background: rgba(255,255,255,0.95);
+      padding: 40px; border-radius: 16px;
       box-shadow: 0 10px 40px rgba(0,132,255,0.2);
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
+      width: 100%; max-width: 380px; text-align: center;
     }
-
-    .login-title {
-      font-size: 26px;
-      margin-bottom: 26px;
-      color: #064f74;
-    }
-
+    .login-title { font-size: 26px; margin-bottom: 26px; color: #064f74; }
     .login-input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: 1px solid #cfe6f7;
-      font-size: 15px;
-      outline: none;
+      width: 100%; padding: 12px; margin: 10px 0;
+      border-radius: 8px; border: 1px solid #cfe6f7;
+      font-size: 15px; outline: none;
     }
-
-    .login-input:focus {
-      border-color: #6c7cff;
-    }
-
-    /* ===== Blue Archive Button ===== */
+    .login-input:focus { border-color: #6c7cff; }
     .momo-wrapper {
-      margin-top: 16px;
-      transform: skewX(-12deg);
-      border-radius: 6px;
-      overflow: hidden;
-      display: inline-block;
-      background: linear-gradient(135deg, #b3e5ff, #e1f5fe);
+      margin-top: 16px; transform: skewX(-12deg);
+      border-radius: 6px; overflow: hidden;
+      display: inline-block; background: linear-gradient(135deg, #b3e5ff, #e1f5fe);
       box-shadow: 0 4px 12px rgba(0,132,255,0.25);
       transition: transform 0.2s ease, box-shadow 0.3s ease;
     }
-
     .momo-button {
-      transform: skewX(12deg);
-      padding: 12px 36px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #0a3a66;
-      background: transparent;
-      border: none;
-      cursor: pointer;
+      transform: skewX(12deg); padding: 12px 36px;
+      font-size: 14px; font-weight: 600; color: #0a3a66;
+      background: transparent; border: none; cursor: pointer;
     }
-
-    .momo-wrapper:hover {
-      transform: skewX(-12deg) scale(1.04);
-      box-shadow: 0 6px 18px rgba(0,132,255,0.35);
-    }
-
-    /* ===== Chibi Assistant ===== */
-    @keyframes chibiFloat {
-      0%   { transform: translateY(0); }
-      50%  { transform: translateY(-8px); }
-      100% { transform: translateY(0); }
-    }
-
-    #chibi-container {
-      position: fixed;
-      right: 20px;
-      bottom: 0;
-      z-index: 3;
-      pointer-events: none;
-      animation: chibiFloat 3.5s ease-in-out infinite;
-    }
-
-    #chibi-char {
-      width: 180px;
-      opacity: 0.92;
-      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.2));
-    }
-
-    /* ===== Speech Bubble ===== */
+    .momo-wrapper:hover { transform: skewX(-12deg) scale(1.04); }
+    
+    /* ===== Chibi & Thông báo ===== */
+    @keyframes chibiFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    #chibi-container { position: fixed; right: 20px; bottom: 0; z-index: 3; pointer-events: none; animation: chibiFloat 3.5s ease-in-out infinite; }
+    #chibi-char { width: 180px; opacity: 0.92; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.2)); }
     #chibi-alert {
-      position: absolute;
-      right: 110px;
-      bottom: 130px;
-      background: rgba(255,255,255,0.96);
-      border-radius: 14px;
-      padding: 10px 14px;
-      font-size: 13px;
-      color: #064f74;
-      max-width: 200px;
-      line-height: 1.4;
+      position: absolute; right: 110px; bottom: 130px;
+      background: rgba(255,255,255,0.96); border-radius: 14px;
+      padding: 10px 14px; font-size: 13px; color: #064f74;
+      max-width: 200px; line-height: 1.4;
       box-shadow: 0 8px 24px rgba(0,132,255,0.25);
-      opacity: 0;
-      transform: scale(0.92) translateY(6px);
+      opacity: 0; transform: scale(0.92) translateY(6px);
       transition: all 0.25s ease;
     }
-
+    #chibi-alert.show { opacity: 1; transform: scale(1) translateY(0); }
     #chibi-alert::after {
-      content: "";
-      position: absolute;
-      right: -6px;
-      bottom: 14px;
-      width: 12px;
-      height: 12px;
-      background: white;
-      transform: rotate(45deg);
-    }
-
-    #chibi-alert.show {
-      opacity: 1;
-      transform: scale(1) translateY(0);
+      content: ""; position: absolute; right: -6px; bottom: 14px;
+      width: 12px; height: 12px; background: white; transform: rotate(45deg);
     }
   </style>
 </head>
-
 <body>
 
-  <!-- Particle Background -->
   <canvas id="particles"></canvas>
 
-  <!-- Login -->
   <div class="login-container">
     <h2 class="login-title">Login to LunaAccount</h2>
-
-    <form onsubmit="return fakeLogin();">
-      <input class="login-input" type="text" placeholder="Username" required>
-      <input class="login-input" type="password" placeholder="Password" required>
+    <form onsubmit="handleAuth(event)">
+      <input class="login-input" type="text" id="user" placeholder="Username" required>
+      <input class="login-input" type="password" id="pass" placeholder="Password" required>
 
       <div class="momo-wrapper">
         <button class="momo-button" type="submit">Login</button>
@@ -162,7 +77,6 @@
     </form>
   </div>
 
-  <!-- Chibi -->
   <div id="chibi-container">
     <img src="/hub/char.png" id="chibi-char" alt="Chibi Assistant">
     <div id="chibi-alert">
@@ -170,19 +84,13 @@
     </div>
   </div>
 
-  <!-- Script -->
   <script>
-    /* ===== Particle ===== */
+    /* ===== Hiệu ứng hạt nền ===== */
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
     let particles = [];
-
-    function resize() {
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
-    }
-    resize();
-    addEventListener("resize", resize);
+    function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+    resize(); addEventListener("resize", resize);
 
     class Particle {
       constructor() {
@@ -192,69 +100,61 @@
         this.vx = Math.random() * 0.6 - 0.3;
         this.vy = Math.random() * 0.6 - 0.3;
       }
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-      }
+      update() { this.x += this.vx; this.y += this.vy; }
       draw() {
         ctx.fillStyle = "rgba(100,200,255,0.7)";
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
       }
     }
-
-    function initParticles() {
-      particles = [];
-      for (let i = 0; i < 120; i++) {
-        particles.push(new Particle());
-      }
-    }
-
-    function animateParticles() {
+    function initParticles() { for (let i = 0; i < 120; i++) particles.push(new Particle()); }
+    function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateParticles);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
     }
+    initParticles(); animate();
 
-    initParticles();
-    animateParticles();
-
-    /* ===== Chibi Alert ===== */
+    /* ===== Logic Chibi Alert ===== */
     const chibiAlert = document.getElementById("chibi-alert");
     const chibiText = document.getElementById("chibi-text");
-
     function showChibiAlert(text, time = 4000) {
       chibiText.textContent = text;
       chibiAlert.classList.add("show");
       setTimeout(() => chibiAlert.classList.remove("show"), time);
     }
 
-    /* Network status */
-    addEventListener("offline", () => {
-      showChibiAlert("Mất mạng rồi… kiểm tra lại nha ⚠");
-    });
+    /* ===== KẾT NỐI API THẬT ===== */
+    async function handleAuth(e) {
+      e.preventDefault();
+      const u = document.getElementById("user").value;
+      const p = document.getElementById("pass").value;
 
-    addEventListener("online", () => {
-      showChibiAlert("Kết nối lại thành công ✨", 2500);
-    });
+      showChibiAlert("Đang xác thực, đợi chút nhé Sensei... ⏳");
 
-    /* Fake login demo */
-    function fakeLogin() {
-      showChibiAlert("Sai tài khoản hoặc mật khẩu rồi… ❌");
-      return false;
+      try {
+        // Gửi POST tới endpoint /auth/login
+        const res = await fetch('/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ u, p, id: "web-client" })
+        });
+
+        const data = await res.json();
+
+        if (data.a1) {
+          showChibiAlert("Đăng nhập thành công! ✨", 5000);
+          localStorage.setItem('luna_token', data.z9);
+          localStorage.setItem('luna_license', data.l);
+        } else {
+          showChibiAlert(data.msg || "Thông tin không chính xác... ❌");
+        }
+      } catch (err) {
+        showChibiAlert("Lỗi kết nối Server rồi... ⚠");
+      }
     }
 
     /* Welcome */
-    setTimeout(() => {
-      showChibiAlert("Chào mừng đến LunaLauncher~ 💙", 3000);
-    }, 800);
+    setTimeout(() => showChibiAlert("Chào mừng đến LunaLauncher~ 💙"), 800);
   </script>
-
 </body>
 </html>
-
-
