@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { UserManager } from '@/lib/UserManager';
+import { UserManager } from '../../../lib/UserManager';
 
 export async function POST(req: Request) {
   try {
