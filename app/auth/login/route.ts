@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 // Lùi 3 cấp để vào thư mục lib từ app/auth/login
-import { UserManager } from '../../lib/UserManager';
+import { UserManager } from 'src/lib/UserManager';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
