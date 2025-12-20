@@ -5,11 +5,7 @@
       "destination": "/hub/index.html"
     },
     {
-      "source": "/auth/login/api",
-      "destination": "/auth/login/api"
-    },
-    {
-      "source": "/auth/login",
+      "source": "/login",
       "destination": "/hub/login.html"
     }
   ]
